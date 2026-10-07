@@ -1,6 +1,6 @@
 """GENERATED FILE — do not edit here.
 
-Copied from the DALBOE service source, app/openfoodfacts.py, at commit 77d6438,
+Copied from the DALBOE service source, app/openfoodfacts.py, at commit a0afba1,
 on 2026-10-07 (America/Chicago), by scripts/make_open_data_repo.py.
 
 Edits belong in the service; re-running the generator replaces this file.
@@ -188,6 +188,13 @@ def describe_import(source_version: Optional[str]) -> str:
 #:
 #: Each line names the code that performs it, so a reader can check the
 #: claim rather than trust it.
+#: Where the method is published. **Verified reachable before it went into
+#: the text**, because a URL in a §4.6(b) offer that 404s is the same
+#: defect as the OFF record link that would have 404'd: the obligation is
+#: to OFFER the method, and an offer nobody can follow is not one.
+METHOD_REPO = "https://github.com/DALBOE-LLC/dalboe-open-data"
+
+
 ALTERATIONS = (
     "Rows are taken from the Open Food Facts CSV export and changed as "
     "follows before storage:",
@@ -205,6 +212,13 @@ ALTERATIONS = (
     "dropped rather than guessed, because the export does not record "
     "which symbol was scanned;",
     "  * the product name is required; rows without one are dropped;",
+    "  * where an import run sets a minimum scan count, rows whose "
+    "`unique_scans_n` is below it, or absent, are dropped. No run has "
+    "used this so far;",
+    "  * after normalising, a GTIN already seen in the same run is "
+    "dropped and the FIRST row in export order is kept. A UPC-E and its "
+    "expanded UPC-A are two rows in the export that normalise to one "
+    "key, which is the point of normalising;",
     "  * only the FIRST comma-separated entry of the `brands` field is "
     "kept, and it is stored as a brand, never as a manufacturer;",
     "  * no other OFF field is imported. Nutrition, ingredients, "

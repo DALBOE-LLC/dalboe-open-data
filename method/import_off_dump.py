@@ -1,6 +1,6 @@
 """GENERATED FILE — do not edit here.
 
-Copied from the DALBOE service source, scripts/import_off_dump.py, at commit 77d6438,
+Copied from the DALBOE service source, scripts/import_off_dump.py, at commit a0afba1,
 on 2026-10-07 (America/Chicago), by scripts/make_open_data_repo.py.
 
 Edits belong in the service; re-running the generator replaces this file.

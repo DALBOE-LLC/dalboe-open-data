@@ -7,7 +7,7 @@ of the alterations made to the Database or the method of making the
 alterations to the Database (such as an algorithm)"*. This repository is
 that method.
 
-Generated from the DALBOE service source at commit `77d6438` on 2026-10-07
+Generated from the DALBOE service source at commit `a0afba1` on 2026-10-07
 (America/Chicago). Nothing here is hand-written; see
 `scripts/make_open_data_repo.py` in the service repository.
 
@@ -26,6 +26,8 @@ Rows are taken from the Open Food Facts CSV export and changed as follows before
   * the barcode is normalised to a 14-digit GTIN with a verified check digit (normalise_gtin); rows whose code is not a valid GTIN-8/12/13/14 are dropped;
   * eight-digit codes that read as BOTH a UPC-E and a GTIN-8 are dropped rather than guessed, because the export does not record which symbol was scanned;
   * the product name is required; rows without one are dropped;
+  * where an import run sets a minimum scan count, rows whose `unique_scans_n` is below it, or absent, are dropped. No run has used this so far;
+  * after normalising, a GTIN already seen in the same run is dropped and the FIRST row in export order is kept. A UPC-E and its expanded UPC-A are two rows in the export that normalise to one key, which is the point of normalising;
   * only the FIRST comma-separated entry of the `brands` field is kept, and it is stored as a brand, never as a manufacturer;
   * no other OFF field is imported. Nutrition, ingredients, categories, labels, images and contributor metadata are not read.
 Nothing in the export is edited in place: each row is stored under its own source key, so an Open Food Facts value is never merged into, or overwritten by, a value from anywhere else.
